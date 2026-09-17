@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 230" fill="none">
+  <defs>
+    <linearGradient id="sun" x1="100" y1="40" x2="100" y2="140">
+      <stop offset="0%" stop-color="#FFE566"/>
+      <stop offset="100%" stop-color="#F4C400"/>
+    </linearGradient>
+  </defs>
+  <g transform="translate(100 92)">
+    <g id="rays">
+      <path d="M0-78 L12-18 L-12-18 Z" fill="#0038A8"/>
+      <path d="M0-78 L12-18 L-12-18 Z" fill="#CE1126" transform="rotate(22.5)"/>
+      <path d="M0-78 L12-18 L-12-18 Z" fill="#FCD116" transform="rotate(45)"/>
+      <path d="M0-78 L12-18 L-12-18 Z" fill="#FFFFFF" stroke="#D6D6D6" stroke-width="0.4" transform="rotate(67.5)"/>
+      <path d="M0-78 L12-18 L-12-18 Z" fill="#0038A8" transform="rotate(90)"/>
+      <path d="M0-78 L12-18 L-12-18 Z" fill="#CE1126" transform="rotate(112.5)"/>
+      <path d="M0-78 L12-18 L-12-18 Z" fill="#FCD116" transform="rotate(135)"/>
+      <path d="M0-78 L12-18 L-12-18 Z" fill="#FFFFFF" stroke="#D6D6D6" stroke-width="0.4" transform="rotate(157.5)"/>
+      <path d="M0-78 L12-18 L-12-18 Z" fill="#0038A8" transform="rotate(180)"/>
+      <path d="M0-78 L12-18 L-12-18 Z" fill="#CE1126" transform="rotate(202.5)"/>
+      <path d="M0-78 L12-18 L-12-18 Z" fill="#FCD116" transform="rotate(225)"/>
+      <path d="M0-78 L12-18 L-12-18 Z" fill="#FFFFFF" stroke="#D6D6D6" stroke-width="0.4" transform="rotate(247.5)"/>
+      <path d="M0-78 L12-18 L-12-18 Z" fill="#0038A8" transform="rotate(270)"/>
+      <path d="M0-78 L12-18 L-12-18 Z" fill="#CE1126" transform="rotate(292.5)"/>
+      <path d="M0-78 L12-18 L-12-18 Z" fill="#FCD116" transform="rotate(315)"/>
+      <path d="M0-78 L12-18 L-12-18 Z" fill="#FFFFFF" stroke="#D6D6D6" stroke-width="0.4" transform="rotate(337.5)"/>
+    </g>
+    <circle r="28" fill="url(#sun)"/>
+    <circle r="28" fill="none" stroke="#E8B800" stroke-width="1.2"/>
+  </g>
+  <text x="100" y="196" text-anchor="middle" fill="#0038A8" font-family="Arial Black, Arial, Helvetica, sans-serif" font-size="18" font-weight="800" letter-spacing="0.5">BAGONG PILIPINAS</text>
+</svg>

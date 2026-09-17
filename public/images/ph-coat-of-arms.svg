@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="Coat of arms of the Philippines">
+  <circle cx="100" cy="100" r="98" fill="#0038a8"/>
+  <circle cx="100" cy="100" r="88" fill="#fff"/>
+  <circle cx="100" cy="100" r="80" fill="#0038a8"/>
+  <path d="M100 28 L108 52 H134 L113 67 L121 91 L100 76 L79 91 L87 67 L66 52 H92 Z" fill="#fcd116"/>
+  <circle cx="48" cy="58" r="7" fill="#fcd116"/>
+  <circle cx="152" cy="58" r="7" fill="#fcd116"/>
+  <circle cx="100" cy="168" r="7" fill="#fcd116"/>
+  <ellipse cx="72" cy="118" rx="22" ry="18" fill="#ce1126"/>
+  <ellipse cx="128" cy="118" rx="22" ry="18" fill="#fcd116"/>
+  <path d="M78 118 Q100 132 122 118 Q100 148 78 118 Z" fill="#fff"/>
+</svg>
