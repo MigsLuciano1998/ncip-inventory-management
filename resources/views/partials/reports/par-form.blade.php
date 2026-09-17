@@ -25,14 +25,34 @@
                     <td class="w-[100px] border border-black px-1 py-2">Date<br>Acquired</td>
                     <td class="w-[100px] border border-black px-1 py-2">Amount</td>
                 </tr>
-                <tr class="align-top">
-                    <td class="border border-black px-1 py-3 text-center">1</td>
-                    <td class="border border-black px-1 py-3 text-center">unit</td>
-                    <td class="border border-black px-2 py-3 text-left leading-snug">{{ $itemDescription }}</td>
-                    <td class="border border-black px-2 py-3 text-center font-semibold">{{ $equipment->property_no }}</td>
-                    <td class="border border-black px-1 py-3 text-center">{{ $equipment->date_acquired?->format('n/j/Y') ?? $equipment->date_purchased?->format('n/j/Y') ?? '—' }}</td>
-                    <td class="border border-black px-2 py-3 text-right">{{ $equipment->cost ? number_format((float) preg_replace('/[^\d.]/', '', $equipment->cost), 2) : '—' }}</td>
-                </tr>
+                @forelse($formItems as $item)
+                    @php
+                        $description = trim((string) $item->description);
+                        if ($description === '') {
+                            $description = trim(implode(' ', array_filter([
+                                $item->brand,
+                                $item->model,
+                                $item->equipmentType?->name,
+                            ])));
+                        }
+                        if ($item->serial_no && ! str_contains(strtolower($description), strtolower($item->serial_no))) {
+                            $description = trim($description.', sn - '.$item->serial_no, ', ');
+                        }
+                        $cost = \App\Models\Equipment::parseCostAmount($item->cost);
+                    @endphp
+                    <tr class="align-top">
+                        <td class="border border-black px-1 py-3 text-center">1</td>
+                        <td class="border border-black px-1 py-3 text-center">unit</td>
+                        <td class="border border-black px-2 py-3 text-left leading-snug">{{ $description !== '' ? $description : '—' }}</td>
+                        <td class="border border-black px-2 py-3 text-center font-semibold">{{ $item->property_no }}</td>
+                        <td class="border border-black px-1 py-3 text-center">{{ $item->date_acquired?->format('n/j/Y') ?? $item->date_purchased?->format('n/j/Y') ?? '—' }}</td>
+                        <td class="border border-black px-2 py-3 text-right">{{ $cost === null ? '—' : number_format($cost, 2) }}</td>
+                    </tr>
+                @empty
+                    <tr>
+                        <td class="border border-black px-1 py-8" colspan="6"></td>
+                    </tr>
+                @endforelse
                 <tr>
                     <td class="border border-black p-3 align-top" colspan="3">
                         <p class="font-semibold">Received by:</p>

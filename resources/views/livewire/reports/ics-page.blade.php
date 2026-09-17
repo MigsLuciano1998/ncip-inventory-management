@@ -8,8 +8,8 @@
         </a>
 
         <x-page-header
-            title="Property Acknowledgement Receipt (PAR)"
-            description="Select an employee and print a Property Acknowledgement Receipt for PPE equipment."
+            title="Inventory Custodian Slip (ICS)"
+            description="Select an employee and print an Inventory Custodian Slip for Semi-HV and LV equipment."
         />
 
         <div class="pmms-card p-5">
@@ -50,7 +50,7 @@
             </div>
             @if($employee)
                 <p class="mt-3 text-sm text-slate-500">
-                    Showing PPE assigned to
+                    Showing equipment assigned to
                     <span class="font-medium text-slate-700">{{ $employee->last_name_first }}</span>
                     <button type="button" wire:click="selectEmployee(null)" class="ml-2 text-indigo-600 hover:underline">Clear</button>
                 </p>
@@ -72,7 +72,7 @@
                     </thead>
                     <tbody class="divide-y divide-slate-200 bg-white">
                         @forelse($equipments as $equipment)
-                            <tr wire:key="par-equipment-{{ $equipment->id }}" class="{{ $viewEquipment?->id === $equipment->id ? 'bg-indigo-50/60' : '' }}">
+                            <tr wire:key="ics-equipment-{{ $equipment->id }}" class="{{ $viewEquipment?->id === $equipment->id ? 'bg-indigo-50/60' : '' }}">
                                 <td>
                                     <input
                                         type="checkbox"
@@ -98,7 +98,7 @@
                         @empty
                             <tr>
                                 <td colspan="6" class="py-12 text-center text-slate-500">
-                                    {{ $employee ? 'No PPE assigned to this employee.' : 'Search and select an employee to view assigned PPE.' }}
+                                    {{ $employee ? 'No Semi-HV or LV equipment assigned to this employee.' : 'Search and select an employee to view assigned Semi-HV and LV equipment.' }}
                                 </td>
                             </tr>
                         @endforelse
@@ -119,15 +119,15 @@
             <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" wire:click="closeView"></div>
             <div class="relative max-h-[90vh] w-full max-w-4xl overflow-y-auto rounded-2xl border border-slate-200 bg-white p-6 shadow-2xl">
                 <div class="mb-4 flex items-center justify-between gap-3">
-                    <h2 class="text-lg font-semibold text-slate-900">Property Acknowledgement Receipt</h2>
+                    <h2 class="text-lg font-semibold text-slate-900">Inventory Custodian Slip</h2>
                     <div class="flex items-center gap-2">
                         <button type="button" onclick="window.print()" class="pmms-btn-primary">Print</button>
                         <button type="button" wire:click="closeView" class="pmms-btn-secondary">Close</button>
                     </div>
                 </div>
                 <div class="text-black" style="font-family: 'Times New Roman', Times, serif;">
-                    <h3 class="mb-2 text-center text-sm font-bold uppercase">Property Acknowledgment Receipt</h3>
-                    @include('partials.reports.par-form')
+                    <h3 class="mb-2 text-center text-sm font-bold uppercase">Inventory Custodian Slip</h3>
+                    @include('partials.reports.ics-form')
                 </div>
             </div>
         </div>
@@ -135,8 +135,8 @@
 
     @if($formItems->isNotEmpty())
         <div class="hidden print:block">
-            <x-reports.document title="Property Acknowledgment Receipt">
-                @include('partials.reports.par-form')
+            <x-reports.document title="Inventory Custodian Slip">
+                @include('partials.reports.ics-form')
             </x-reports.document>
         </div>
     @endif

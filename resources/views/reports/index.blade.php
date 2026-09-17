@@ -17,7 +17,42 @@
             </div>
             <div>
                 <h2 class="text-base font-semibold text-slate-900">Property Acknowledgement Receipt (PAR)</h2>
-                <p class="mt-1 text-sm text-slate-500">Record acknowledgement of property issued to an employee.</p>
+                <p class="mt-1 text-sm text-slate-500">Print a PAR for PPE assigned to an employee.</p>
+            </div>
+        </div>
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-5 w-5 shrink-0 text-slate-300 transition group-hover:text-indigo-500">
+            <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+        </svg>
+    </a>
+
+    <a href="{{ route('reports.ics') }}" class="pmms-card group flex items-center justify-between gap-4 p-5 transition hover:border-indigo-200 hover:bg-indigo-50/40">
+        <div class="flex items-start gap-4">
+            <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-teal-50 text-teal-600 ring-1 ring-teal-600/10">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-5 w-5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18A2.25 2.25 0 0 0 20.25 16.5V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 0 0-1.084-.073H5.81a48.54 48.54 0 0 0-1.084.073C3.595 4.01 2.75 4.973 2.75 6.108V16.5A2.25 2.25 0 0 0 5 18.75h3.75m9-6.75h-9" />
+                </svg>
+            </div>
+            <div>
+                <h2 class="text-base font-semibold text-slate-900">Inventory Custodian Slip (ICS)</h2>
+                <p class="mt-1 text-sm text-slate-500">List equipment assigned to an employee and print an ICS.</p>
+            </div>
+        </div>
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-5 w-5 shrink-0 text-slate-300 transition group-hover:text-indigo-500">
+            <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+        </svg>
+    </a>
+
+    <a href="{{ route('reports.property-tagging') }}" class="pmms-card group flex items-center justify-between gap-4 p-5 transition hover:border-indigo-200 hover:bg-indigo-50/40">
+        <div class="flex items-start gap-4">
+            <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-sky-50 text-sky-600 ring-1 ring-sky-600/10">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-5 w-5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9.568 3H5.25A2.25 2.25 0 0 0 3 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 0 0 5.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 0 0 9.568 3Z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 6h.008v.008H6V6Z" />
+                </svg>
+            </div>
+            <div>
+                <h2 class="text-base font-semibold text-slate-900">Property Tagging</h2>
+                <p class="mt-1 text-sm text-slate-500">Select equipment and print property tags.</p>
             </div>
         </div>
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-5 w-5 shrink-0 text-slate-300 transition group-hover:text-indigo-500">
@@ -87,24 +122,6 @@
             <div>
                 <h2 class="text-base font-semibold text-slate-900">Lost, Stolen, Damaged, Or Destroyed PPE Property</h2>
                 <p class="mt-1 text-sm text-slate-500">Record and print reports of lost, stolen, damaged, or destroyed PPE.</p>
-            </div>
-        </div>
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-5 w-5 shrink-0 text-slate-300 transition group-hover:text-indigo-500">
-            <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
-        </svg>
-    </a>
-
-    <a href="{{ route('reports.property-tagging') }}" class="pmms-card group flex items-center justify-between gap-4 p-5 transition hover:border-indigo-200 hover:bg-indigo-50/40">
-        <div class="flex items-start gap-4">
-            <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-sky-50 text-sky-600 ring-1 ring-sky-600/10">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-5 w-5">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M9.568 3H5.25A2.25 2.25 0 0 0 3 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 0 0 5.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 0 0 9.568 3Z" />
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 6h.008v.008H6V6Z" />
-                </svg>
-            </div>
-            <div>
-                <h2 class="text-base font-semibold text-slate-900">Property Tagging</h2>
-                <p class="mt-1 text-sm text-slate-500">Select equipment and print property tags.</p>
             </div>
         </div>
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-5 w-5 shrink-0 text-slate-300 transition group-hover:text-indigo-500">

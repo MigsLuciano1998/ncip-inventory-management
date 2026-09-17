@@ -36,7 +36,7 @@
                         </div>
 
                         <div>
-                            <label class="mb-2 block text-sm font-medium text-slate-700">Equipment Type <span class="text-red-500">*</span></label>
+                            <label class="mb-2 block text-sm font-medium text-slate-700">Equipment Type</label>
                             <select wire:model="equipment_type_id" class="pmms-select" @disabled(! $equipment_category_id)>
                                 <option value="">Select equipment type</option>
                                 @foreach($equipmentTypes as $type)
@@ -190,16 +190,6 @@
                 <div>
                     <h3 class="mb-3 text-sm font-semibold text-slate-900">Accounting</h3>
                     <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                        <div class="sm:col-span-2 lg:col-span-3">
-                            <label class="mb-2 block text-sm font-medium text-slate-700">PPE Category <span class="text-red-500">*</span></label>
-                            <select wire:model.live="ppe_category_id" class="pmms-select">
-                                <option value="">Select PPE category</option>
-                                @foreach($ppeCategories as $ppeCategory)
-                                    <option value="{{ $ppeCategory->id }}">{{ $ppeCategory->number }} — {{ $ppeCategory->title }}</option>
-                                @endforeach
-                            </select>
-                            @error('ppe_category_id') <p class="mt-1 text-xs text-red-600">{{ $message }}</p> @enderror
-                        </div>
                         <div>
                             <label class="mb-2 block text-sm font-medium text-slate-700">UACS Object Code</label>
                             <input type="text" wire:model="uacs_object_code" class="pmms-input bg-slate-50 text-slate-700" readonly tabindex="-1">
@@ -265,7 +255,7 @@
                         </div>
                         <div>
                             <label class="mb-2 block text-sm font-medium text-slate-700">Classification <span class="text-red-500">*</span></label>
-                            <select wire:model="classification" class="pmms-select">
+                            <select wire:model.live="classification" class="pmms-select">
                                 <option value="">Select classification</option>
                                 <option value="ppe">PPE (Above 50,000)</option>
                                 <option value="semi_hv">Semi-HV (5,001 – 49,999)</option>

@@ -8,7 +8,7 @@ use Illuminate\Support\Carbon;
 use Livewire\Component;
 use Livewire\WithPagination;
 
-class ParPage extends Component
+class IcsPage extends Component
 {
     use WithPagination;
 
@@ -122,26 +122,24 @@ class ParPage extends Component
 
         $formItems = $printEquipment->isNotEmpty() ? $printEquipment : collect();
         $first = $formItems->first();
-        $issuedDate = $first
-            ? ($first->par_ics_issued_date
-                ?? $first->activeAssignment?->date_assigned
-                ?? $first->date_acquired
-                ?? now())
-            : null;
 
-        return view('livewire.reports.par-page', [
+        return view('livewire.reports.ics-page', [
             'employee' => $employee,
             'employees' => $this->employeeSuggestions(),
             'equipments' => $equipments,
             'printEquipment' => $printEquipment,
             'viewEquipment' => $viewEquipment,
             'formItems' => $formItems,
-            'equipment' => $first,
-            'selectedIssuedBy' => $this->defaultIssuer(),
+            'issuedBy' => $this->defaultIssuer(),
             'receivedBy' => $employee,
-            'parNumber' => $first && $issuedDate ? $this->parNumber($first, $issuedDate) : null,
-            'fundCluster' => $first ? $this->fundCluster($first) : null,
-            'issuedDate' => $issuedDate,
+            'fundCluster' => $first ? $this->fundCluster($first) : '',
+            'icsNumber' => $first ? $this->icsNumber($first) : '',
+            'issuedDate' => $first
+                ? ($first->activeAssignment?->date_assigned
+                    ?? $first->par_ics_issued_date
+                    ?? $first->date_acquired
+                    ?? now())
+                : now(),
             'canPrint' => $this->normalizedSelectedIds() !== [],
         ]);
     }
@@ -156,7 +154,10 @@ class ParPage extends Component
                 'office',
                 'activeAssignment.employee.office',
             ])
-            ->where('classification', Equipment::CLASSIFICATION_PPE)
+            ->whereIn('classification', [
+                Equipment::CLASSIFICATION_SEMI_HV,
+                Equipment::CLASSIFICATION_LV,
+            ])
             ->when($this->employeeId, function ($q) {
                 $q->whereHas('activeAssignment', function ($assignment) {
                     $assignment->where('employee_id', $this->employeeId);
@@ -206,25 +207,32 @@ class ParPage extends Component
             ->first();
     }
 
-    protected function parNumber(Equipment $equipment, mixed $issuedDate): string
-    {
-        if (filled($equipment->par_ics) && str_starts_with(strtoupper(trim($equipment->par_ics)), 'PAR')) {
-            return $equipment->par_ics;
-        }
-
-        $short = strtoupper($equipment->tag ?: $equipment->equipmentCategory?->short_name ?: 'ICT');
-        $date = $issuedDate instanceof Carbon ? $issuedDate : Carbon::parse($issuedDate);
-        $series = str_pad((string) ($equipment->series_number ?? 0), 4, '0', STR_PAD_LEFT);
-
-        return sprintf('PAR-%s-%s-%s', $short, $date->format('Y-m'), $series);
-    }
-
     protected function fundCluster(Equipment $equipment): string
     {
         $title = $equipment->equipmentCategory?->title
             ?? $equipment->ppeCategory?->title
-            ?? 'Information and Communications Technology Equipment';
+            ?? '';
 
-        return 'PPE '.$title;
+        return match ($equipment->classification) {
+            Equipment::CLASSIFICATION_SEMI_HV => trim('High Value Semi-Expendable '.$title),
+            Equipment::CLASSIFICATION_LV => trim('Low Value Semi-Expendable '.$title),
+            default => $title !== '' ? $title : 'PPE',
+        };
+    }
+
+    protected function icsNumber(Equipment $equipment): string
+    {
+        if (filled($equipment->par_ics) && str_starts_with(strtoupper(trim($equipment->par_ics)), 'ICS')) {
+            return $equipment->par_ics;
+        }
+
+        $short = strtoupper($equipment->tag ?: $equipment->equipmentCategory?->short_name ?: 'ICS');
+        $date = $equipment->date_acquired
+            ?? $equipment->date_purchased
+            ?? ($equipment->par_ics_issued_date instanceof Carbon ? $equipment->par_ics_issued_date : now());
+        $seq = $equipment->item_id
+            ?: str_pad((string) ($equipment->series_number ?? 0), 4, '0', STR_PAD_LEFT);
+
+        return sprintf('ICS-%s-%s-%s', $short, $date->format('Y'), $seq);
     }
 }

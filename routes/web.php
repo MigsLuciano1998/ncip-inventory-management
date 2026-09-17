@@ -55,3 +55,4 @@ Route::get('/reports/receipt-of-returned-property', [ReportController::class, 'r
 Route::get('/reports/ppe-in-stations', [ReportController::class, 'ppeInStations'])->name('reports.ppe-in-stations');
 Route::get('/reports/lost-stolen-damaged-ppe-property', [ReportController::class, 'lostStolenDamaged'])->name('reports.lost-stolen-damaged');
 Route::get('/reports/property-tagging', [ReportController::class, 'propertyTagging'])->name('reports.property-tagging');
+Route::get('/reports/inventory-custodian-slip', [ReportController::class, 'ics'])->name('reports.ics');

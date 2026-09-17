@@ -18,6 +18,7 @@
         'reports.ppe-in-stations' => 'PPE In Stations (Found and Missing)',
         'reports.lost-stolen-damaged' => 'Lost, Stolen, Damaged, Or Destroyed PPE Property',
         'reports.property-tagging' => 'Property Tagging',
+        'reports.ics' => 'Inventory Custodian Slip',
     ];
 
     $currentRoute = Route::currentRouteName();

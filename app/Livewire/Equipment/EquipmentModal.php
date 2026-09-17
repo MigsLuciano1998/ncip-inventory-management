@@ -97,8 +97,8 @@ class EquipmentModal extends Component
     {
         return [
             'equipment_category_id' => 'required|exists:equipment_categories,id',
-            'equipment_type_id' => 'required|exists:equipment_types,id,equipment_category_id,' . $this->equipment_category_id,
-            'ppe_category_id' => 'required|exists:ppe_categories,id',
+            'equipment_type_id' => 'nullable|exists:equipment_types,id,equipment_category_id,' . $this->equipment_category_id,
+            'ppe_category_id' => 'nullable|exists:ppe_categories,id',
             'region_id' => 'required|exists:regions,id',
             'province_id' => 'required|exists:provinces,id',
             'office_id' => 'required|exists:offices,id',
@@ -195,11 +195,12 @@ class EquipmentModal extends Component
     public function updatedEquipmentCategoryId()
     {
         $this->equipment_type_id = '';
+        $this->syncAccountingFromEquipmentCategory();
     }
 
-    public function updatedPpeCategoryId(): void
+    public function updatedClassification(): void
     {
-        $this->fillAccountingFromPpeCategory();
+        $this->syncAccountingFromEquipmentCategory();
     }
 
     public function updatedCost(): void
@@ -208,6 +209,7 @@ class EquipmentModal extends Component
 
         if ($classification) {
             $this->classification = $classification;
+            $this->syncAccountingFromEquipmentCategory();
         }
     }
 
@@ -234,6 +236,8 @@ class EquipmentModal extends Component
     public function save()
     {
         foreach ([
+            'equipment_type_id',
+            'ppe_category_id',
             'uacs_object_code',
             'tag',
             'item_id',
@@ -265,6 +269,8 @@ class EquipmentModal extends Component
             }
         }
 
+        $this->syncAccountingFromEquipmentCategory();
+
         $this->property_no = Equipment::buildPropertyNumber(
             $this->tag,
             $this->date_purchased,
@@ -280,8 +286,8 @@ class EquipmentModal extends Component
 
         $attributes = [
             'equipment_category_id' => $this->equipment_category_id,
-            'equipment_type_id' => $this->equipment_type_id,
-            'ppe_category_id' => $this->ppe_category_id,
+            'equipment_type_id' => $this->blankToNull($this->equipment_type_id),
+            'ppe_category_id' => $this->blankToNull($this->ppe_category_id),
             'office_id' => $this->office_id,
             'property_no' => $this->property_no,
             'uacs_object_code' => $this->blankToNull($this->uacs_object_code),
@@ -476,13 +482,12 @@ class EquipmentModal extends Component
         $this->resetValidation();
     }
 
-    protected function fillAccountingFromPpeCategory(): void
+    protected function syncAccountingFromEquipmentCategory(): void
     {
-        $category = $this->ppe_category_id
-            ? PpeCategory::find($this->ppe_category_id)
-            : null;
+        $ppeCategory = $this->matchedPpeCategory();
+        $this->ppe_category_id = $ppeCategory?->id;
 
-        if (! $category) {
+        if (! $ppeCategory) {
             $this->uacs_object_code = null;
             $this->ppe_major_account_group = null;
             $this->general_ledger = null;
@@ -490,9 +495,57 @@ class EquipmentModal extends Component
             return;
         }
 
-        $this->uacs_object_code = $category->uacs_object_code;
-        $this->ppe_major_account_group = (int) $category->ppe_sub_major_account_group;
-        $this->general_ledger = (int) $category->general_ledger_account;
+        $this->uacs_object_code = $ppeCategory->uacs_object_code;
+        $this->ppe_major_account_group = (int) $ppeCategory->ppe_sub_major_account_group;
+        $this->general_ledger = (int) $ppeCategory->general_ledger_account;
+    }
+
+    protected function matchedPpeCategory(): ?PpeCategory
+    {
+        $equipmentCategory = $this->equipment_category_id
+            ? EquipmentCategory::find($this->equipment_category_id)
+            : null;
+
+        if (! $equipmentCategory) {
+            return null;
+        }
+
+        $wantSemi = in_array($this->classification, [
+            Equipment::CLASSIFICATION_SEMI_HV,
+            Equipment::CLASSIFICATION_LV,
+        ], true);
+
+        $normalizedEquipmentTitle = $this->normalizeCategoryTitle($equipmentCategory->title);
+
+        return PpeCategory::query()
+            ->where('status', 1)
+            ->get()
+            ->first(function (PpeCategory $ppeCategory) use ($normalizedEquipmentTitle, $wantSemi) {
+                $isSemi = str_starts_with(strtolower($ppeCategory->title), 'semi-expendable');
+
+                if ($isSemi !== $wantSemi) {
+                    return false;
+                }
+
+                $ppeTitle = $isSemi
+                    ? preg_replace('/^semi-expendable\s+/i', '', $ppeCategory->title)
+                    : $ppeCategory->title;
+
+                $normalizedPpeTitle = $this->normalizeCategoryTitle((string) $ppeTitle);
+
+                return $normalizedPpeTitle === $normalizedEquipmentTitle
+                    || str_contains($normalizedPpeTitle, $normalizedEquipmentTitle)
+                    || str_contains($normalizedEquipmentTitle, $normalizedPpeTitle);
+            });
+    }
+
+    protected function normalizeCategoryTitle(string $title): string
+    {
+        $title = strtolower(trim($title));
+        $title = preg_replace('/[^a-z0-9]+/', ' ', $title) ?? $title;
+        $title = preg_replace('/s\b/', '', $title) ?? $title;
+
+        return trim($title);
     }
 
     protected function syncLocationNumberFromProvince(): void
@@ -523,10 +576,6 @@ class EquipmentModal extends Component
                     ->orderBy('name')
                     ->get()
                 : collect(),
-            'ppeCategories' => PpeCategory::where('status', 1)
-                ->orderByRaw('CAST(number AS INTEGER)')
-                ->orderBy('number')
-                ->get(),
             'regions' => Region::orderBy('region_short_name')->get(),
             'provinces' => $this->region_id
                 ? Province::where('region_id', $this->region_id)->orderBy('province_name')->get()

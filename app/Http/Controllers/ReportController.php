@@ -38,4 +38,9 @@ class ReportController extends Controller
     {
         return view('reports.property-tagging');
     }
+
+    public function ics()
+    {
+        return view('reports.ics');
+    }
 }
