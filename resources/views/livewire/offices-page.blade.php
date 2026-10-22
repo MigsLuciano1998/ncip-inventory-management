@@ -73,7 +73,11 @@
                 <tbody class="divide-y divide-slate-200 bg-white">
                     @forelse($offices as $office)
                         <tr wire:key="office-{{ $office->id }}">
-                            <td class="font-medium text-slate-900">{{ $office->office_name }}</td>
+                            <td class="font-medium text-slate-900">
+                                <a href="{{ route('employees.index', ['office' => $office->id]) }}" class="text-slate-900 hover:text-blue-700 hover:underline">
+                                    {{ $office->office_name }}
+                                </a>
+                            </td>
                             <td class="text-slate-500">{{ $office->province?->region?->region_short_name ?? '—' }}</td>
                             <td class="text-slate-500">{{ $office->province?->province_name ?? '—' }}</td>
                             <td class="text-slate-500">{{ $office->office_location ?? '—' }}</td>

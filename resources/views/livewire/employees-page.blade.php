@@ -20,13 +20,20 @@
     </x-page-header>
 
     <div class="pmms-card p-5">
-        <div class="max-w-md">
+        <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
             <input
                 type="text"
                 wire:model.live.debounce.300ms="search"
                 placeholder="Search EE sequence number or name..."
                 class="pmms-input w-full"
             >
+
+            <select wire:model.live="selectedOffice" class="pmms-select">
+                <option value="">All Offices</option>
+                @foreach($filterOffices as $office)
+                    <option value="{{ $office->id }}">{{ $office->office_name }}</option>
+                @endforeach
+            </select>
         </div>
     </div>
 

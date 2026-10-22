@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use App\Models\Employee;
 use App\Models\Office;
+use Livewire\Attributes\Url;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -12,6 +13,10 @@ class EmployeesPage extends Component
     use WithPagination;
 
     public $search = '';
+
+    #[Url(as: 'office', except: '')]
+    public $selectedOffice = '';
+
     public $ee_sequence_number;
     public $first_name;
     public $middle_name;
@@ -29,6 +34,10 @@ class EmployeesPage extends Component
         $this->offices = Office::where('status', 1)
             ->orderBy('office_name')
             ->get();
+
+        if ($this->selectedOffice !== '' && ! Office::whereKey($this->selectedOffice)->exists()) {
+            $this->selectedOffice = '';
+        }
     }
 
     public function save()
@@ -107,6 +116,11 @@ class EmployeesPage extends Component
         $this->resetPage();
     }
 
+    public function updatingSelectedOffice()
+    {
+        $this->resetPage();
+    }
+
     public function closeModal()
     {
         $this->resetForm();
@@ -115,7 +129,10 @@ class EmployeesPage extends Component
 
     public function render()
     {
+        $filterOffices = Office::orderBy('office_name')->get();
+
         return view('livewire.employees-page', [
+            'filterOffices' => $filterOffices,
             'employees' => Employee::with('office')
                 ->when($this->search, function ($query) {
                     $query->where(function ($q) {
@@ -124,6 +141,9 @@ class EmployeesPage extends Component
                             ->orWhere('middle_name', 'like', "%{$this->search}%")
                             ->orWhere('last_name', 'like', "%{$this->search}%");
                     });
+                })
+                ->when($this->selectedOffice, function ($query) {
+                    $query->where('office_id', $this->selectedOffice);
                 })
                 ->orderBy('last_name')
                 ->orderBy('first_name')
