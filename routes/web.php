@@ -36,6 +36,7 @@ Route::get('/equipment', function () {
     return view('equipment.index');
 })->name('equipment.index');
 
+Route::get('/equipment/{equipment}/iirupp', [EquipmentController::class, 'iirupp'])->name('equipment.iirupp.create');
 Route::get('/equipment/{equipment}', [EquipmentController::class, 'show'])->name('equipment.show');
 
 Route::get('/equipment-assignments', [EquipmentAssignmentController::class, 'index'])->name('equipment-assignments.index');
@@ -56,3 +57,4 @@ Route::get('/reports/ppe-in-stations', [ReportController::class, 'ppeInStations'
 Route::get('/reports/lost-stolen-damaged-ppe-property', [ReportController::class, 'lostStolenDamaged'])->name('reports.lost-stolen-damaged');
 Route::get('/reports/property-tagging', [ReportController::class, 'propertyTagging'])->name('reports.property-tagging');
 Route::get('/reports/inventory-custodian-slip', [ReportController::class, 'ics'])->name('reports.ics');
+Route::get('/reports/iirupp', [ReportController::class, 'iirupp'])->name('reports.iirupp');

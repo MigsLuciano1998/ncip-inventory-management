@@ -134,32 +134,70 @@
 @media print {
     @page {
         size: A4;
-        margin: 12mm;
+        margin: 10mm;
     }
 
+    html,
     body {
+        height: auto !important;
+        overflow: visible !important;
         background: #fff !important;
     }
 
-    .report-document,
-    .par-document {
-        box-shadow: none !important;
-        max-width: none !important;
-        min-height: 273mm;
-        display: flex;
-        flex-direction: column;
+    .no-print {
+        display: none !important;
     }
 
-    .report-body,
-    .par-body {
-        flex: 1 1 auto;
+    .print-report {
+        display: block !important;
+    }
+
+    .report-document,
+    .par-document,
+    .report-print-table {
+        box-shadow: none !important;
+        max-width: none !important;
+        width: 100% !important;
+        min-height: 0 !important;
+        display: table !important;
+        border-collapse: collapse !important;
+        overflow: visible !important;
+    }
+
+    .report-print-table thead {
+        display: table-header-group !important;
+    }
+
+    .report-print-table tfoot {
+        display: table-footer-group !important;
+    }
+
+    .report-print-table tbody {
+        display: table-row-group !important;
+    }
+
+    .report-header,
+    .report-header-cell {
+        break-inside: avoid;
+        page-break-inside: avoid;
+        page-break-after: avoid;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
     }
 
     .report-footer,
-    .par-footer {
-        margin-top: auto;
+    .par-footer,
+    .report-footer-cell {
+        break-inside: avoid;
+        page-break-inside: avoid;
         -webkit-print-color-adjust: exact;
         print-color-adjust: exact;
-        break-inside: avoid;
+    }
+
+    .report-header img,
+    .report-footer img {
+        display: inline-block !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
     }
 }

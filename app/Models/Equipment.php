@@ -116,6 +116,11 @@ class Equipment extends Model
         return $this->hasMany(LostStolenDamagedEquipment::class);
     }
 
+    public function depreciation(): HasOne
+    {
+        return $this->hasOne(EquipmentDepreciation::class);
+    }
+
     public function isFoundAtStation(): bool
     {
         return $this->stationRecord?->status === PpeFoundAtStation::STATUS_FOUND;

@@ -2,7 +2,7 @@
     function navClass($route)
     {
         return request()->routeIs($route)
-            || ($route === 'equipment.index' && request()->routeIs('equipment.show'))
+            || ($route === 'equipment.index' && request()->routeIs('equipment.show', 'equipment.iirupp.create'))
             || ($route === 'reports.index' && request()->routeIs('reports.*'))
             ? 'pmms-nav-link-active'
             : 'pmms-nav-link-inactive';

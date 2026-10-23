@@ -18,6 +18,8 @@ class PpeInStationsPage extends Component
 
     public bool $showMissing = true;
 
+    public bool $showPrintPreview = false;
+
     public function updatingSearch(): void
     {
         $this->resetPage();
@@ -31,6 +33,16 @@ class PpeInStationsPage extends Component
     public function updatingShowMissing(): void
     {
         $this->resetPage();
+    }
+
+    public function openPrintPreview(): void
+    {
+        $this->showPrintPreview = true;
+    }
+
+    public function closeView(): void
+    {
+        $this->showPrintPreview = false;
     }
 
     public function markStation(int $equipmentId, string $status): void

@@ -93,7 +93,6 @@ class IcsPage extends Component
 
         $this->viewEquipmentId = null;
         $this->printIds = $ids;
-        $this->js('setTimeout(() => window.print(), 150)');
     }
 
     public function render()

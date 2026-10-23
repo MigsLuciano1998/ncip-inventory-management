@@ -1,5 +1,12 @@
 <div>
-    <div class="no-print print:hidden space-y-6">
+    @if($printRecord && $formData)
+        <x-reports.view-page>
+            <x-reports.document title="Report of Lost, Stolen, Damaged or Destroyed PPE Property" class="ptr-compact">
+                @include('partials.reports.rlsddsp-form', ['formData' => $formData])
+            </x-reports.document>
+        </x-reports.view-page>
+    @else
+    <div class="space-y-6">
         @if(session()->has('message'))
             <div class="flex items-center gap-2 rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-700">
                 {{ session('message') }}
@@ -163,30 +170,5 @@
         </div>
     @endif
 
-    @if($printRecord && $formData)
-        <div class="fixed inset-0 z-50 flex items-center justify-center p-4 print:hidden">
-            <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" wire:click="closeView"></div>
-            <div class="relative max-h-[90vh] w-full max-w-4xl overflow-y-auto rounded-2xl border border-slate-200 bg-white p-6 shadow-2xl">
-                <div class="mb-4 flex items-center justify-between gap-3">
-                    <h2 class="text-lg font-semibold text-slate-900">Report of Lost, Stolen, Damaged or Destroyed PPE Property</h2>
-                    <div class="flex items-center gap-2">
-                        <button type="button" onclick="window.print()" class="pmms-btn-primary">Print</button>
-                        <button type="button" wire:click="closeView" class="pmms-btn-secondary">Close</button>
-                    </div>
-                </div>
-                <div class="text-black" style="font-family: 'Times New Roman', Times, serif;">
-                    <h3 class="mb-2 text-center text-sm font-bold uppercase">Report of Lost, Stolen, Damaged or Destroyed PPE Property</h3>
-                    @include('partials.reports.rlsddsp-form', ['formData' => $formData])
-                </div>
-            </div>
-        </div>
-    @endif
-
-    @if($printRecord && $formData)
-        <div class="hidden print:block">
-            <x-reports.document title="Report of Lost, Stolen, Damaged or Destroyed PPE Property" class="ptr-compact">
-                @include('partials.reports.rlsddsp-form', ['formData' => $formData])
-            </x-reports.document>
-        </div>
     @endif
 </div>

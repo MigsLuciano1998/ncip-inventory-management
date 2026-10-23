@@ -3,7 +3,7 @@
 
     @include('partials.reports.footer')
 --}}
-<div class="report-footer par-footer mt-auto flex items-center gap-4 pt-8 pl-20" style="font-family: Arial, Helvetica, sans-serif;">
+<div class="report-footer par-footer mt-4 flex items-center gap-4 pt-4 pl-4" style="font-family: Arial, Helvetica, sans-serif;">
     <img src="{{ asset('images/bagong-pilipinas-logo.png') }}" alt="Bagong Pilipinas" class="mt-0.5 h-[72px] w-[72px] shrink-0 object-contain">
     <div class="min-w-0 flex-1 text-[11px] leading-snug text-[#4a4a4a]">
         <p class="text-[13px] font-semibold uppercase tracking-wide text-[#333333]">Cordillera Administrative Region</p>

@@ -218,6 +218,20 @@ class EquipmentShowPage extends Component
         $this->expandedPmId = $this->expandedPmId === $pmId ? null : $pmId;
     }
 
+    public function deleteIirupp(): void
+    {
+        $record = $this->equipment->depreciation;
+
+        if (! $record) {
+            session()->flash('error', 'No IIRUPP record exists for this equipment.');
+
+            return;
+        }
+
+        $record->delete();
+        $this->refreshEquipment('IIRUPP record deleted.');
+    }
+
     protected function loadEquipmentRelations(Equipment $equipment): Equipment
     {
         return $equipment->load([
@@ -227,6 +241,7 @@ class EquipmentShowPage extends Component
             'office.province.region',
             'activeAssignment.employee',
             'preventiveMaintenances',
+            'depreciation',
         ]);
     }
 

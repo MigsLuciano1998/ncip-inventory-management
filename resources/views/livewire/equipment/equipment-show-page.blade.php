@@ -236,6 +236,75 @@
         </dl>
     </section>
 
+    {{-- IIRUPP --}}
+    <section class="pmms-card p-6">
+        <div class="mb-4 flex flex-wrap items-center justify-between gap-3">
+            <h2 class="text-sm font-semibold uppercase tracking-wide text-slate-400">Inventory and Inspection Report of Unserviceable PPE Property</h2>
+            @if($equipment->depreciation)
+                <button
+                    type="button"
+                    wire:click="deleteIirupp"
+                    wire:confirm="Delete this IIRUPP record? This cannot be undone."
+                    class="pmms-btn-danger !px-3 !py-1.5 !text-xs">
+                    Delete
+                </button>
+            @endif
+        </div>
+
+        @if($equipment->depreciation)
+            @php $iirupp = $equipment->depreciation; @endphp
+            <dl class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                <div class="rounded-xl border border-slate-100 bg-slate-50/50 p-4">
+                    <dt class="text-xs font-medium text-slate-400">Accumulated Depreciation (Beginning)</dt>
+                    <dd class="mt-1 text-sm font-medium text-slate-900">{{ $iirupp->formattedAmount('accumulated_depreciation_beginning') }}</dd>
+                </div>
+                <div class="rounded-xl border border-slate-100 bg-slate-50/50 p-4">
+                    <dt class="text-xs font-medium text-slate-400">Accumulated Depreciation (End)</dt>
+                    <dd class="mt-1 text-sm font-medium text-slate-900">{{ $iirupp->formattedAmount('accumulated_depreciation_end') }}</dd>
+                </div>
+                <div class="rounded-xl border border-slate-100 bg-slate-50/50 p-4">
+                    <dt class="text-xs font-medium text-slate-400">Book Value</dt>
+                    <dd class="mt-1 text-sm font-medium text-slate-900">{{ $iirupp->formattedAmount('book_value') }}</dd>
+                </div>
+                <div class="rounded-xl border border-slate-100 bg-slate-50/50 p-4 sm:col-span-2 lg:col-span-3">
+                    <dt class="text-xs font-medium text-slate-400">Nature of Repair</dt>
+                    <dd class="mt-1 text-sm text-slate-700">{{ $iirupp->nature_of_repair ?: '—' }}</dd>
+                </div>
+                <div class="rounded-xl border border-slate-100 bg-slate-50/50 p-4">
+                    <dt class="text-xs font-medium text-slate-400">Repair Cost</dt>
+                    <dd class="mt-1 text-sm font-medium text-slate-900">{{ $iirupp->formattedAmount('repair_cost') }}</dd>
+                </div>
+                <div class="rounded-xl border border-slate-100 bg-slate-50/50 p-4">
+                    <dt class="text-xs font-medium text-slate-400">Authority</dt>
+                    <dd class="mt-1 text-sm font-medium text-slate-900">{{ $iirupp->authority ?: '—' }}</dd>
+                </div>
+                <div class="rounded-xl border border-slate-100 bg-slate-50/50 p-4">
+                    <dt class="text-xs font-medium text-slate-400">Use of Depreciation Date</dt>
+                    <dd class="mt-1 text-sm font-medium text-slate-900">{{ $iirupp->use_of_depreciation_date?->format('M d, Y') ?? '—' }}</dd>
+                </div>
+                <div class="rounded-xl border border-slate-100 bg-slate-50/50 p-4">
+                    <dt class="text-xs font-medium text-slate-400">Salvage Value</dt>
+                    <dd class="mt-1 text-sm font-medium text-slate-900">{{ $iirupp->formattedAmount('salvage_value') }}</dd>
+                </div>
+                <div class="rounded-xl border border-slate-100 bg-slate-50/50 p-4">
+                    <dt class="text-xs font-medium text-slate-400">Start Date of Depreciation</dt>
+                    <dd class="mt-1 text-sm font-medium text-slate-900">{{ $iirupp->start_date_of_depreciation?->format('M d, Y') ?? '—' }}</dd>
+                </div>
+                <div class="rounded-xl border border-slate-100 bg-slate-50/50 p-4">
+                    <dt class="text-xs font-medium text-slate-400">Status of Depreciation</dt>
+                    <dd class="mt-1 text-sm font-medium text-slate-900">{{ $iirupp->status_of_depreciation ?: '—' }}</dd>
+                </div>
+            </dl>
+        @else
+            <div class="rounded-xl border border-dashed border-slate-200 bg-slate-50 px-4 py-8 text-center">
+                <p class="mb-4 text-sm text-slate-500">No IIRUPP record has been logged for this equipment.</p>
+                <a href="{{ route('equipment.iirupp.create', $equipment) }}" class="pmms-btn-primary">
+                    Log IIRUPP for current equipment
+                </a>
+            </div>
+        @endif
+    </section>
+
     {{-- Current Assignment --}}
     <section class="pmms-card p-6">
         <h2 class="mb-4 text-sm font-semibold uppercase tracking-wide text-slate-400">Current Assignment</h2>

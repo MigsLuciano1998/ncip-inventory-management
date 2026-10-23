@@ -43,4 +43,9 @@ class ReportController extends Controller
     {
         return view('reports.ics');
     }
+
+    public function iirupp()
+    {
+        return view('reports.iirupp');
+    }
 }

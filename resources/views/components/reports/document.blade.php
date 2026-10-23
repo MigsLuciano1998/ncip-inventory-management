@@ -1,9 +1,26 @@
 @props(['title' => null])
 
-<div {{ $attributes->class('report-document par-document mx-auto flex min-h-[257mm] w-full max-w-[8.5in] flex-col bg-white p-6 text-black shadow-sm print:min-h-[273mm] print:p-0 print:shadow-none') }} style="font-family: 'Times New Roman', Times, serif;">
-    <div class="report-body par-body flex-1">
-        @include('partials.reports.header', ['title' => $title])
-        {{ $slot }}
-    </div>
-    @include('partials.reports.footer')
-</div>
+{{-- Letterhead document. thead/tfoot stay visible on screen and repeat on each printed page. --}}
+<table {{ $attributes->class('report-document par-document report-print-table w-full border-collapse bg-white text-black print:max-w-none') }} style="font-family: 'Times New Roman', Times, serif;">
+    <thead>
+        <tr>
+            <td class="report-header-cell p-0 align-bottom">
+                @include('partials.reports.header', ['title' => $title])
+            </td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td class="report-body par-body p-0 align-top">
+                {{ $slot }}
+            </td>
+        </tr>
+    </tbody>
+    <tfoot>
+        <tr>
+            <td class="report-footer-cell p-0 align-top">
+                @include('partials.reports.footer')
+            </td>
+        </tr>
+    </tfoot>
+</table>

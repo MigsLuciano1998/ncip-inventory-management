@@ -8,6 +8,7 @@
         'equipment-types.index' => 'Equipment Types',
         'equipment.index' => 'Equipment',
         'equipment.show' => 'Equipment Details',
+        'equipment.iirupp.create' => 'Log IIRUPP',
         'equipment-assignments.index' => 'Equipment Assignments',
         'ppe-categories.index' => 'PPE Categories',
         'preventive-maintenances.index' => 'PM Logs',
@@ -19,6 +20,7 @@
         'reports.lost-stolen-damaged' => 'Lost, Stolen, Damaged, Or Destroyed PPE Property',
         'reports.property-tagging' => 'Property Tagging',
         'reports.ics' => 'Inventory Custodian Slip',
+        'reports.iirupp' => 'IIRUPP',
     ];
 
     $currentRoute = Route::currentRouteName();

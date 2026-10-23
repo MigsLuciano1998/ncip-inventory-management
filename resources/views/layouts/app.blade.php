@@ -13,20 +13,32 @@
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
-    <style>[x-cloak]{display:none!important}</style>
+    <style>
+        [x-cloak]{display:none!important}
+        @media print {
+            html, body { height: auto !important; overflow: visible !important; background: #fff !important; }
+            .no-print, .print\:hidden { display: none !important; }
+            .print-report, .print\:block { display: block !important; }
+            .report-print-table { display: table !important; width: 100% !important; border-collapse: collapse !important; }
+            .report-print-table thead { display: table-header-group !important; }
+            .report-print-table tfoot { display: table-footer-group !important; }
+            .report-print-table tbody { display: table-row-group !important; }
+            .report-header img, .report-footer img { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+        }
+    </style>
 </head>
 
 <body class="bg-slate-50">
 
-<div class="flex min-h-screen">
+<div class="flex min-h-screen print:block print:h-auto print:min-h-0 print:overflow-visible">
 
     @include('partials.sidebar')
 
-    <div class="flex min-w-0 flex-1 flex-col">
+    <div class="flex min-w-0 flex-1 flex-col print:block print:h-auto print:min-h-0 print:overflow-visible">
 
         @include('partials.header')
 
-        <main class="flex-1 p-6 lg:p-8 print:p-0">
+        <main class="flex-1 p-6 lg:p-8 print:p-0 print:overflow-visible">
             @yield('content')
         </main>
 
